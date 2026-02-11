@@ -26,11 +26,12 @@ app.get("/", (_req: Request, res: Response , next: NextFunction) => {
 
 
 // 404 Handler
-app.use((req, res, next) => {
+app.use((_req: Request, res: Response , next: NextFunction) => {
   res.status(404).json({
     success: false,
     message: "Route Not Found",
   });
+  next();
 });
 
 export default app;
