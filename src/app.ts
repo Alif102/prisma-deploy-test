@@ -1,6 +1,7 @@
 import compression from "compression";
 import cors from "cors";
 import express from "express";
+import { Request, Response, NextFunction } from "express";
 
 
 const app = express();
@@ -18,8 +19,9 @@ app.use(
 );
 
 // Default route for testing
-app.get("/", (_req, res) => {
+app.get("/", (_req: Request, res: Response , next: NextFunction) => {
   res.send("API is running");
+   next();
 });
 
 
