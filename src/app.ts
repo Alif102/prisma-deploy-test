@@ -1,7 +1,9 @@
 import cors from "cors";
 import express from "express";
-import { Request, Response, NextFunction } from "express";
-
+import { userRouter } from "./modules/user/user.routes";
+import { postRouter } from "./modules/post/post.router";
+import { authRouter } from "./modules/auth/auth.router";
+import { CategoryRouter } from "./modules/category/category.router";
 
 const app = express();
 
@@ -15,21 +17,22 @@ app.use(
     credentials: true,
   })
 );
-
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/categories", CategoryRouter);
+app.use("/api/v1/post", postRouter);
+app.use("/api/v1/auth", authRouter);
 // Default route for testing
-app.get("/", (_req: Request, res: Response , next: NextFunction) => {
+app.get("/", (_req, res) => {
   res.send("API is running");
-   next();
 });
 
 
 // 404 Handler
-app.use((_req: Request, res: Response , next: NextFunction) => {
+app.use((req, res, next) => {
   res.status(404).json({
     success: false,
     message: "Route Not Found",
   });
-  next();
 });
 
 export default app;

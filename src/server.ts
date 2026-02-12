@@ -18,7 +18,6 @@ async function connectToDB() {
 }
 
 async function startServer() {
-  
   try {
     await connectToDB()
     server = http.createServer(app);
@@ -45,6 +44,8 @@ async function gracefulShutdown(signal: string) {
       console.log("✅ HTTP server closed.");
 
       try {
+        await prisma.$disconnect();
+        console.log("✅ Prisma disconnected.");
         console.log("Server shutdown complete.");
       } catch (error) {
         console.error("❌ Error during shutdown:", error);
@@ -53,9 +54,11 @@ async function gracefulShutdown(signal: string) {
       process.exit(0);
     });
   } else {
+    await prisma.$disconnect();
     process.exit(0);
   }
 }
+
 
 /**
  * Handle system signals and unexpected errors.
