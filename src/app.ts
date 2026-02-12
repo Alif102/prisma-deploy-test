@@ -1,15 +1,37 @@
-import express, { Request, Response } from "express";
+import compression from "compression";
 import cors from "cors";
+import express from "express";
+import { Request, Response, NextFunction } from "express";
+
 
 const app = express();
 
 // Middleware
-app.use(cors());
-app.use(express.json());
+app.use(cors()); // Enables Cross-Origin Resource Sharing
+app.use(compression()); // Compresses response bodies for faster delivery
+app.use(express.json()); // Parse incoming JSON requests
 
-// Root Route
-app.get("/", (_req: Request, res: Response) => {
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
+
+// Default route for testing
+app.get("/", (_req: Request, res: Response , next: NextFunction) => {
   res.send("API is running");
+   next();
+});
+
+
+// 404 Handler
+app.use((_req: Request, res: Response , next: NextFunction) => {
+  res.status(404).json({
+    success: false,
+    message: "Route Not Found",
+  });
+  next();
 });
 
 export default app;
