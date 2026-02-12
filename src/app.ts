@@ -1,4 +1,3 @@
-import compression from "compression";
 import cors from "cors";
 import express from "express";
 import { Request, Response, NextFunction } from "express";
@@ -8,7 +7,6 @@ const app = express();
 
 // Middleware
 app.use(cors()); // Enables Cross-Origin Resource Sharing
-app.use(compression()); // Compresses response bodies for faster delivery
 app.use(express.json()); // Parse incoming JSON requests
 
 app.use(
