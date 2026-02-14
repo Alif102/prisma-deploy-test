@@ -13,10 +13,14 @@ app.use(express.json()); // Parse incoming JSON requests
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: [
+      "http://localhost:3000",
+      "https://gardenershub.onrender.com",
+    ],
     credentials: true,
   })
 );
+
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/categories", CategoryRouter);
 app.use("/api/v1/post", postRouter);
